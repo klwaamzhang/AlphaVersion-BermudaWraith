@@ -106,6 +106,7 @@ public class CharacterController_2D : MonoBehaviour {
             m_Animator.Play("Die");
             Physics2D.IgnoreLayerCollision(enemyLayer, playerLayer);
             StartCoroutine(DieSceneIn2Seconds());
+            health = 100;
         }
         else
         {

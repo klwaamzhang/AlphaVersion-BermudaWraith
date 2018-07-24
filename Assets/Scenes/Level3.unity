@@ -1319,6 +1319,11 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: -2.6
       objectReference: {fileID: 0}
+    - target: {fileID: 114390155898225428, guid: 02c28d89037a1194da096d7d20a01b38,
+        type: 2}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1617913254}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02c28d89037a1194da096d7d20a01b38, type: 2}
   m_IsPrefabParent: 0
@@ -9639,6 +9644,16 @@ Prefab:
     - target: {fileID: 224335359915121128, guid: 92879d971d2d2c04ebad1e3713ddf25b,
         type: 2}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224785503171720992, guid: 92879d971d2d2c04ebad1e3713ddf25b,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224785503171720992, guid: 92879d971d2d2c04ebad1e3713ddf25b,
+        type: 2}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
