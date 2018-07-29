@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Reflection;
 
 public class CharacterController_2D : MonoBehaviour {
 
@@ -11,11 +13,6 @@ public class CharacterController_2D : MonoBehaviour {
 
     private float h = 0;
     private float v = 0;
-
-    public static CharacterController_2D instance;
-
-    public static int health = 100;
-    public int showHealth;
 
     public float MoveSpeed = 40;
     public float jumpPower = 300;
@@ -33,15 +30,18 @@ public class CharacterController_2D : MonoBehaviour {
         m_tran = this.transform;
         m_SpriteGroup = this.transform.Find("BURLY-MAN_1_swordsman_model").GetComponentsInChildren<SpriteRenderer>(true);
     }
-	
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
 	// Update is called once per frame
 	void Update () {
 
-        showHealth = health;
-        ScoreBoardController.instance.UpdateHealth(health);
         //spriteOrder_Controller();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             Once_Attack = false;
             Debug.Log("Lclick");
@@ -49,7 +49,7 @@ public class CharacterController_2D : MonoBehaviour {
             m_rigidbody.velocity = new Vector3(0, 0, 0);
         }
 
-        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        else if (Input.GetKeyDown(KeyCode.K))
         {
             Once_Attack = false;
             Debug.Log("Rclick");
@@ -70,14 +70,14 @@ public class CharacterController_2D : MonoBehaviour {
     // character Move Function
     void Move_Fuc()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
           //  Debug.Log("Left");
             m_rigidbody.AddForce(Vector2.left * MoveSpeed);
             if (B_FacingRight)
                 Filp();
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
           //  Debug.Log("Right");
             m_rigidbody.AddForce(Vector2.right * MoveSpeed);
@@ -85,7 +85,7 @@ public class CharacterController_2D : MonoBehaviour {
                 Filp();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space)) && !isJumping)
         {
             m_rigidbody.AddForce(Vector2.up * jumpPower);
             isJumping = true;
@@ -97,16 +97,14 @@ public class CharacterController_2D : MonoBehaviour {
         int enemyLayer = LayerMask.NameToLayer("Enemy");
         int playerLayer = LayerMask.NameToLayer("Player");
 
-        health-=20;
-        
-        Debug.Log(health);
+        ScoreBoardController.instance.HealthDecrease();
 
-        if (health <= 0)
+        if (ScoreBoardController.health <= 0)
         {
             m_Animator.Play("Die");
             Physics2D.IgnoreLayerCollision(enemyLayer, playerLayer);
-            StartCoroutine(DieSceneIn2Seconds());
-            health = 100;
+            Physics2D.IgnoreLayerCollision(enemyLayer, playerLayer, false);
+            StartCoroutine(DieSceneIn2Seconds());         
         }
         else
         {
@@ -118,6 +116,7 @@ public class CharacterController_2D : MonoBehaviour {
     IEnumerator DieSceneIn2Seconds()
     {
         yield return new WaitForSeconds(2);
+        //ScoreBoardController.ResetStatics(typeof(ScoreBoardController));
         SceneManager.LoadScene(5);
     }
 
@@ -141,8 +140,9 @@ public class CharacterController_2D : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SteakMove steak = collision.collider.GetComponent<SteakMove>();
-        EnemyFollowPlayer steak2 = collision.gameObject.GetComponent<EnemyFollowPlayer>();
-        if (steak != null || steak2 != null)
+        EnemyFollowPlayer pumpkin = collision.gameObject.GetComponent<EnemyFollowPlayer>();
+        MushroomBehavior mushroom = collision.gameObject.GetComponent<MushroomBehavior>();
+        if (steak != null || pumpkin != null || mushroom != null)
         {            
                 Hurt();           
         }

@@ -22,7 +22,12 @@ public class ColliderEvent_Sender : MonoBehaviour {
         {
             other.GetComponent<EnemyFollowPlayer>().Sword_Hitted();
         }
-        
+
+        if (other.tag == "Mushroom")
+        {
+            other.GetComponent<MushroomBehavior>().Sword_Hitted();
+        }
+
         Debug.Log("hit::" + other.name);
 
         if (this.GetComponent<BoxCollider2D>().enabled)

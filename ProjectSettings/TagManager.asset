@@ -8,6 +8,7 @@ TagManager:
   - Steak
   - Pumpkin
   - BackGround
+  - Mushroom
   layers:
   - Default
   - TransparentFX

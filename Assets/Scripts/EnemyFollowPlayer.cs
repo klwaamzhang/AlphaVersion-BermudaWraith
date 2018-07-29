@@ -134,6 +134,10 @@ public class EnemyFollowPlayer : MonoBehaviour
                 damageWait += Time.deltaTime;
             }
         }
+
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+        Physics2D.IgnoreLayerCollision(enemyLayer, enemyLayer);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

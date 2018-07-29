@@ -38,6 +38,10 @@ public class SteakMove : MonoBehaviour {
         Vector2 myVel = myBody.velocity;
         myVel.x = -myTrans.right.x * speed;
         myBody.velocity = myVel;
+
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+        Physics2D.IgnoreLayerCollision(enemyLayer, enemyLayer);
     }
 
     public void Sword_Hitted()

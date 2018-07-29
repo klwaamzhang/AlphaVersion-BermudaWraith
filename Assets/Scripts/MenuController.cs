@@ -8,8 +8,10 @@ public class MenuController : MonoBehaviour {
     public void StartGame()
     {
         //Loads Level1 Scene
+        ScoreBoardController.health = 100;
+        ScoreBoardController.scoreCounter = 0;
         SceneManager.LoadScene(1);
-    }
+    }   
 
     public void ContinueGame()
     {
